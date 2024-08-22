@@ -17,7 +17,8 @@ router.route('/').get(verifyToken, getProducts).post(verifyToken, createProduct)
 router.route('/:id')
     .get(verifyToken, getProductById)
     .patch(updateProduct)
-    .delete(verifyToken,
+    .delete(
+        verifyToken,
         allowedTo(userRoles.ADMIN, userRoles.MANGER),
         deleteProduct)
 

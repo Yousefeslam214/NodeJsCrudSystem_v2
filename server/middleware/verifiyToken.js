@@ -29,24 +29,13 @@ const appError = require('../utils/appError')
 const verifyToken = (req, res, next) => {
     const authHeader = req.headers['Authorization'] || req.headers['authorization']
     if (!authHeader) {
-        return res.status(401).json({ status: httpStatusText.FAIL, message: 'Token is required' });
+        return res.status(401).json('token is required');
     }
     const token = authHeader.split(' ')[1]
-    if (!token) {
-        // Token not found in the header
-        return res.status(401).json({ status: httpStatusText.FAIL, message: 'Token is required' });
-    }
     try {
         const currentUser = jwt.verify(token, process.env.JWT_SECERT_KEY);
         // console.log("currentUser", currentUser)
-        req.user = currentUser;
-        console.log(req)
-        console.log('////////////////////////////////////')
-        console.log(process.env.JWT_SECERT_KEY)
-        console.log(token)
-
-
-        // req.currentUser = currentUser
+        req.currentUser = currentUser
         next();
     } catch (err) {
         const error = appError.create('invalid token', 401, httpStatusText.FAIL);

@@ -39,6 +39,7 @@ const getUserById = asyncWrapper(async (req, res, next) => {
 // Register a new user
 const register = asyncWrapper(async (req, res, next) => {
   const { userName, gmail, password, age, picture, role } = req.body;
+  console.log(req.body)
   const existingUser = await User.findOne({ gmail });
   if (existingUser) {
     return next(AppError.create('User with this email already exists', 400, hST.FAIL));
@@ -121,11 +122,11 @@ const login = asyncWrapper(async (req, res, next) => {
   }
 
   // Use the secret key from the .env file
-  const token = jwt.sign({ id: user._id, type: user.type }, process.env.JWT_SECERT_KEY, { expiresIn: '1h' });
+  const token = jwt.sign({ id: user._id, type: user.type, role: user.role }, process.env.JWT_SECERT_KEY, { expiresIn: '1h' });
 
   res.status(200).json({
     status: hST.SUCCESS,
-    data: { token, user: { id: user._id, userName: user.userName, gmail: user.gmail, type: user.type } }
+    data: { token, user: { id: user._id, userName: user.userName, gmail: user.gmail, role: user.role } }
   });
 });
 

@@ -125,3 +125,19 @@ npm start</code></pre>
     <p>Contributions are welcome! Please open an issue or submit a pull request for any improvements or bug fixes.</p>
     <h2 id="license">License</h2>
     <p>This project is licensed under the MIT License.</p>
+
+
+
+
+
+
+
+{
+    "userName": "yousef",
+    "gmail": "johndssosse28@gmail.com",
+    "password": "password123",
+    "age": 30,
+    "picture": "https://example.com/images/johndoe.jpg"
+    // ,
+    // "role": "ADMIN"
+}
