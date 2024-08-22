@@ -1,0 +1,132 @@
+.userTable {
+    width: 60%;
+    margin: 50px auto;
+    background-color: white;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 8px rgba(0, 0, 0, 0.065);
+}
+
+.userTable table {
+    width: 100%;
+    margin-top: 30px;
+}
+
+.userTable table thead th {
+    background-color: darkcyan;
+    color: white;
+}
+
+.userTable table tbody td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.actionButtons button {
+    margin: 0 10px;
+}
+
+.btn-danger {
+    background-color: #a72828 !important;
+    
+}
+
+
+
+ table {
+     width: 100%;
+     border-collapse: collapse;
+ }
+
+ th,
+ td {
+     border: 1.5px solid rgba(0, 0, 0, 0.261);
+     padding: 10px;
+     text-align: left;
+ }
+
+ /* Change color of the first column */
+ /* td:nth-child(1),
+ th:nth-child(1) {
+     background-color: #f2f2f2;
+ } */
+
+ /* Change color of the second column */
+ /* td:nth-child(2),
+ th:nth-child(2) {
+     background-color: #e6f7ff;
+ } */
+
+
+
+
+ /* Spinner CSS */
+.spinner {
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Centering the spinner */
+.loading, .error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .table {
+        font-size: 12px;
+    }
+    
+
+    .table th,
+    .table td {
+        padding: 6px;
+    }
+
+    .actionButtonsContainer {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .enterProductsLink {
+        text-align: center;
+    }
+    .userTable {
+        width: 80%;
+        padding: 0;
+        /* margin: 10px;
+        margin-top: 20px; */
+            overflow: auto;
+    }
+    .userTable h2 {
+        padding-top: 20px;
+    }
+  .userTable table {
+      margin-top: 0;
+      margin: auto;
+      width: 70%;
+      
+  }
+  tbody {
+      font-size: 10px;
+  }
+  .actionButtons button {
+      margin: 1px;
+  }
+  .userTable button {
+    padding: 5px !important;
+    font-size: 8px !important;
+  }
+}
