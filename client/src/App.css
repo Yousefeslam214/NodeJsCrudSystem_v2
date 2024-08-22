@@ -1,0 +1,40 @@
+
+/* Basic reset for margins and padding */
+/* * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  } */
+
+body {
+  background-color: aliceblue;
+  color:black;
+  margin: 0px;
+}
+
+/* Container to ensure proper spacing */
+.App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Style for Navbar */
+.Navbar {
+  margin-bottom: 2rem;
+}
+
+/* Main content area styling */
+.Container {
+  flex: 1;
+  padding: 1rem;
+}
+
+/* Basic styles for pages */
+/* .Page {
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+} */
+

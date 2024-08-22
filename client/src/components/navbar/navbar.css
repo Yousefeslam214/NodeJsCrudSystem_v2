@@ -1,0 +1,12 @@
+.navbar-brand:hover,
+.navbar-brand:focus
+ {
+color: white
+}
+
+@media (min-width: 900px) 
+{
+    .w-25 {
+        width: 25% !important;
+    }
+}
