@@ -6,7 +6,7 @@ const hST = require('../utils/httpStatusText');
 const AppError = require('../utils/appError'); // Ensure correct import
 const userRoles = require('../utils/userRoutes')
 
-const jw = require('../utils/jwt'); // Typo: should be 'generateJWT'
+const generateJWT = require('../utils/jwt'); // Typo: should be 'generateJWT'
 
 
 
@@ -53,8 +53,8 @@ const register = asyncWrapper(async (req, res, next) => {
     gmail,
     password: hashedPassword,
     age,
-    picture,
-    role: req.file.filename
+    role,
+    picture: req.file.filename
   });
 
   const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
@@ -118,6 +118,9 @@ const login = asyncWrapper(async (req, res, next) => {
     return next(error)
   }
   const matchedPassword = await bcrypt.compare(password, user.password);
+  console.log(password)
+  console.log(user.password)
+  console.log(matchedPassword)
   if (user && matchedPassword) {
     // logged in successfully
 
