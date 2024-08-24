@@ -10,6 +10,8 @@
     {
       "src": "/(.*)",
       "dest": "/index.js",
+      "start": "node index.js",
+      "dev": "nodemon index.js",
       "methods": ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
       "headers": {
         "Access-Control-Allow-Origin": "https://warehouse-management-system-01.netlify.app/",
