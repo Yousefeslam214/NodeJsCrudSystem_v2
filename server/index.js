@@ -55,18 +55,23 @@ const cors = require('cors');
 //     origin: function (origin, callback) {
 //         if (!origin) return callback(null, true);
 //         if (allowedOrigins.indexOf(origin) === -1) {
-//             const msg = 'The CORS policy for this site does not allow access from the specified origin.';
-//             return callback(new Error(msg), false);
-//         }
+    //             const msg = 'The CORS policy for this site does not allow access from the specified origin.';    
+    //             return callback(new Error(msg), false);
+    //         }
 //         return callback(null, true);
 //     },
-//     credentials: true
 // }));
 
 
 app.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, 'index.html'));
+    res.send('<h1>Hello World</h1>');
 });
+
+//     credentials: true
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'index.html'));
+});    
 
 
 
@@ -82,19 +87,12 @@ app.all('*', (req, res, next) => {
     return res.status(404).json({
         status: hST.ERROR,
         data: { message: 'this resource is not available' }
-    });
-})
+    });    
+})    
 // global error handler
 app.use((error, req, res, next) => {
     res.status(error.statusCode || 500).json({ status: error.statusText || hST.ERROR, message: error.message, code: error.statusCode || 500, data: null })
-})
-
-
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World</h1>');
-});
-
-
+})    
 
 
 
@@ -103,15 +101,15 @@ app.get('/', (req, res) => {
 
 
 // GridFS setup
-const connection = mongoose.connection;
-let gfs, gridFSBucket;
+// const connection = mongoose.connection;
+// let gfs, gridFSBucket;
 
-connection.once('open', () => {
-    gfs = new mongoose.mongo.GridFSBucket(connection.db, {
-        bucketName: 'uploads'
-    });
-    gridFSBucket = gfs;
-});
+// connection.once('open', () => {
+//     gfs = new mongoose.mongo.GridFSBucket(connection.db, {
+//         bucketName: 'uploads'
+//     });
+//     gridFSBucket = gfs;
+// });
 
 // // Multer setup for GridFS
 // const storage = new GridFsStorage({
