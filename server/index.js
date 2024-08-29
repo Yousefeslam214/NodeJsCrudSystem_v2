@@ -5,8 +5,9 @@ const productRoute = require('./routes/product.route')
 const userRoute = require('./routes/user.route')
 const hST = require('./utils/httpStatusText');
 const path = require('path')
-const GridFsStorage  = require('multer-gridfs-storage');
+const GridFsStorage = require('multer-gridfs-storage');
 const multer = require('multer');
+const fs = require('fs')
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
