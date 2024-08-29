@@ -112,22 +112,22 @@ connection.once('open', () => {
     gridFSBucket = gfs;
 });
 
-// Multer setup for GridFS
-const storage = new GridFsStorage({
-    url: process.env.URL,
-    file: (req, file) => {
-        return new Promise((resolve, reject) => {
-            const filename = `user~${Date.now()}-${file.originalname}`;
-            const fileInfo = {
-                filename: filename,
-                bucketName: 'uploads',
-            };
-            resolve(fileInfo);
-        });
-    }
-});
+// // Multer setup for GridFS
+// const storage = new GridFsStorage({
+//     url: process.env.URL,
+//     file: (req, file) => {
+//         return new Promise((resolve, reject) => {
+//             const filename = `user~${Date.now()}-${file.originalname}`;
+//             const fileInfo = {
+//                 filename: filename,
+//                 bucketName: 'uploads',
+//             };
+//             resolve(fileInfo);
+//         });
+//     }
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 
 

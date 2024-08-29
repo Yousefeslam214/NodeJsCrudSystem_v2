@@ -5,9 +5,17 @@ const jwt = require('jsonwebtoken');
 const hST = require('../utils/httpStatusText');
 const AppError = require('../utils/appError'); // Ensure correct import
 const userRoles = require('../utils/userRoutes')
+const multer = require('multer');
+const uploadFile = require('../utils/uploadToFirebase.js'); // Import the upload function
 
 const generateJWT = require('../utils/jwt'); // Typo: should be 'generateJWT'
 
+const { bucket } = require('../firebase.js'); // Import from firebase.js
+
+
+// Multer setup for in-memory storage
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 
 // Ensure dotenv is configured
@@ -36,6 +44,9 @@ const getUserById = asyncWrapper(async (req, res, next) => {
   });
 });
 
+
+
+
 // Register a new user
 const register = asyncWrapper(async (req, res, next) => {
   // console.log('yousef')
@@ -54,7 +65,7 @@ const register = asyncWrapper(async (req, res, next) => {
     password: hashedPassword,
     age,
     role,
-    picture: req.file.filename
+    picture: ""
   });
 
   const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
@@ -62,8 +73,26 @@ const register = asyncWrapper(async (req, res, next) => {
 
 
   await newUser.save();
+  try {
+    const fileUrl = await uploadFile(req.file, `folder/${Date.now()}_${req.file.originalname}`);
+    newUser.picture = fileUrl;
+    await newUser.save();
 
-  res.status(201).json({ status: hST.SUCCESS, data: { user: newUser } });
+    res.status(201).json({
+      status: hST.SUCCESS, data: {
+        user: newUser
+      }
+    });
+  }
+  catch (error) {
+    return res.status(404).json({
+      status: hST.ERROR,
+      data: {
+        message: 'user create but the picture not created',
+        user: newUser
+      }
+    });
+  }
 });
 
 // Update a user
