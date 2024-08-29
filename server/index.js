@@ -15,19 +15,19 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
 
 require('dotenv').config()
 // middleware
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 const cors = require('cors');
 
 
 // CORS configuration
-// app.use(cors());
+app.use(cors());
 
-// app.use(cors({
-//     origin: '*',
-//     credentials: true
-// }));
-// app.use(express.json());
+app.use(cors({
+    origin: '*',
+    credentials: true
+}));
+app.use(express.json());
+
 
 // CORS configuration
 // const allowedOrigins = ['https://warehouse-management-system-01.netlify.app'];
@@ -55,9 +55,9 @@ const cors = require('cors');
 //     origin: function (origin, callback) {
 //         if (!origin) return callback(null, true);
 //         if (allowedOrigins.indexOf(origin) === -1) {
-    //             const msg = 'The CORS policy for this site does not allow access from the specified origin.';    
-    //             return callback(new Error(msg), false);
-    //         }
+//             const msg = 'The CORS policy for this site does not allow access from the specified origin.';    
+//             return callback(new Error(msg), false);
+//         }
 //         return callback(null, true);
 //     },
 // }));
@@ -71,7 +71,7 @@ app.get('/', (req, res) => {
 
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'index.html'));
-});    
+});
 
 
 
@@ -87,12 +87,12 @@ app.all('*', (req, res, next) => {
     return res.status(404).json({
         status: hST.ERROR,
         data: { message: 'this resource is not available' }
-    });    
-})    
+    });
+})
 // global error handler
 app.use((error, req, res, next) => {
     res.status(error.statusCode || 500).json({ status: error.statusText || hST.ERROR, message: error.message, code: error.statusCode || 500, data: null })
-})    
+})
 
 
 
