@@ -5,7 +5,12 @@ const productRoute = require('./routes/product.route')
 const userRoute = require('./routes/user.route')
 const hST = require('./utils/httpStatusText');
 const path = require('path')
+const GridFsStorage  = require('multer-gridfs-storage');
+const multer = require('multer');
+
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')))
+
+
 
 require('dotenv').config()
 // middleware
@@ -87,6 +92,53 @@ app.use((error, req, res, next) => {
 app.get('/', (req, res) => {
     res.send('<h1>Hello World</h1>');
 });
+
+
+
+
+
+
+
+
+
+// GridFS setup
+const connection = mongoose.connection;
+let gfs, gridFSBucket;
+
+connection.once('open', () => {
+    gfs = new mongoose.mongo.GridFSBucket(connection.db, {
+        bucketName: 'uploads'
+    });
+    gridFSBucket = gfs;
+});
+
+// Multer setup for GridFS
+const storage = new GridFsStorage({
+    url: process.env.URL,
+    file: (req, file) => {
+        return new Promise((resolve, reject) => {
+            const filename = `user~${Date.now()}-${file.originalname}`;
+            const fileInfo = {
+                filename: filename,
+                bucketName: 'uploads',
+            };
+            resolve(fileInfo);
+        });
+    }
+});
+
+const upload = multer({ storage });
+
+
+
+
+
+
+
+
+
+
+
 
 
 mongoose.connect(process.env.URL).then(() => {
