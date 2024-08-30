@@ -12,6 +12,11 @@ import Update from './components/updateProduct/Update'
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import Help from "./components/help/Help";
+import Profile from './components/user/Profile';
+import SignUp from './components/user/SignUp';
+import Login from './components/user/Login';
+
+
 
 function App() {
   // const route = createBrowserRouter([
@@ -46,7 +51,9 @@ function App() {
           <Route path="/enter-products" element={<EnterProducts />} />
           <Route path="/update/:id" element={<Update />} />
           <Route path="/help" element={<Help />} />
-          {/* <Route path="/profile" element={<Profile />} /> */}
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/signup" element={<SignUp />} />
+          <Route path="/login" element={<Login />} />
           {/* <Route path="/logout" element={<Logout />} /> */}
           {/* Define other routes as needed */}
         </Routes>

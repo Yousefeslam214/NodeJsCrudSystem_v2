@@ -5,66 +5,72 @@ import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
 import FormModel from "../form/FormModel";
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 const EnterProducts = () => {
-    const apiUrl = "https://server-seven-khaki.vercel.app";
+  // const apiUrl = "https://server-seven-khaki.vercel.app";
 
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const [users, setUsers] = useState([]);
-    const [productName, setProductName] = useState('');
-    const [productQuantity, setProductQuantity] = useState('');
-    const [productPrice, setProductPrice] = useState('');
+  const [users, setUsers] = useState([]);
+  const [productName, setProductName] = useState('');
+  const [productQuantity, setProductQuantity] = useState('');
+  const [productPrice, setProductPrice] = useState('');
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get(`${apiUrl}/api/products`);
-                setUsers(response.data);
-            } catch (error) {
-                console.log("Error while fetching data", error);
-            }
-        };
-        fetchData();
-    }, []);
-    // console.log(users)
-
-    const createProduct = async () => {
-        try {
-            const productData = {
-                name: productName,
-                quantity: productQuantity,
-                price: productPrice,
-            };
-            const response = await axios.post(`${apiUrl}/api/products`, productData);
-            setUsers((prevUsers) => [...prevUsers, response.data]);
-            toast.success('Product created successfully!', { position: 'top-right' });
-            setTimeout(() => {
-                navigate("/products");
-            }, 500);
-        } catch (error) {
-            console.log('Error creating product', error);
-            toast.error('Failed to create product', { position: 'top-right' });
-        }
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(`${apiUrl}/api/products`);
+        setUsers(response.data);
+      } catch (error) {
+        console.log("Error while fetching data", error);
+      }
     };
+    fetchData();
+  }, []);
+  // console.log(users)
+
+  const createProduct = async () => {
+    try {
+      const productData = {
+        name: productName,
+        quantity: productQuantity,
+        price: productPrice,
+      };
+      const response = await axios.post(`${apiUrl}/api/products`, productData);
+      console.log(response.data.data.p)
+      // setUsers((prevUsers) => [...prevUsers, response.data]);
+      setUsers((prevUsers) => {
+        console.log('Previous users:', prevUsers); // Log previous state
+        return Array.isArray(prevUsers) ? [...prevUsers, response.data] : [response.data];
+      });
+      toast.success('Product created successfully!', { position: 'top-right' });
+      setTimeout(() => {
+        navigate("/products");
+      }, 500);
+    } catch (error) {
+      console.log('Error creating product', error);
+      toast.error('Failed to create product', { position: 'top-right' });
+    }
+  };
 
 
-    return (
-        <div className="userTable">
-            <Toaster />
-            <h2>Create Product</h2>
-            <FormModel
-                productName={productName}
-                setProductName={setProductName}
-                productQuantity={productQuantity}
-                setProductQuantity={setProductQuantity}
-                productPrice={productPrice}
-                setProductPrice={setProductPrice}
-                createProduct={createProduct}
-            />
-            {/* <form onSubmit={(e) => { e.preventDefault(); createProduct(); }}>
+  return (
+    <div className="userTable">
+      <Toaster />
+      <h2>Create Product</h2>
+      <FormModel
+        productName={productName}
+        setProductName={setProductName}
+        productQuantity={productQuantity}
+        setProductQuantity={setProductQuantity}
+        productPrice={productPrice}
+        setProductPrice={setProductPrice}
+        createProduct={createProduct}
+      />
+      {/* <form onSubmit={(e) => { e.preventDefault(); createProduct(); }}>
                 <input
                     type="text"
                     placeholder="Product Name"
@@ -89,8 +95,8 @@ const EnterProducts = () => {
                 <button type="submit">Create Product</button>
             </form> */}
 
-        </div>
-    );
+    </div>
+  );
 };
 
 export default EnterProducts;

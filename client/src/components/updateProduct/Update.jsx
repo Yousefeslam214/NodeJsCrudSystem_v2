@@ -5,12 +5,13 @@ import axios from "axios";
 
 import toast, { Toaster } from "react-hot-toast";
 import FormModel from "../form/FormModel";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 
 
 
 const Update = () => {
-  const apiUrl = "https://server-seven-khaki.vercel.app";
+  // const apiUrl = "https://server-seven-khaki.vercel.app";
 
   const initialUser = {
     name: "",
@@ -27,9 +28,15 @@ const Update = () => {
 
   useEffect(() => {
     axios
-      .get(`${apiUrl}/api/products/${id}`)
+      .get(`${apiUrl}/api/products/${id}`, {
+        withCredentials: true,
+        headers: {
+          // Add any required headers here
+        },
+      })
       .then((response) => {
-        setUser(response.data);
+        console.log(response.data.data.product)
+        setUser(response.data.data.product);
       })
       .catch((error) => {
         console.log(error);

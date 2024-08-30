@@ -4,10 +4,13 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { FaPen, FaTrash } from "react-icons/fa";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 const Products = () => {
   // const apiUrl = "https://server-seven-khaki.vercel.app";
-  const apiUrl = "http://localhost:5002"
+  // const apiUrl = "http://localhost:5002"
+  console.log('API URL:', apiUrl);
+
 
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true); // State for loading
@@ -18,7 +21,12 @@ const Products = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
+        const token = localStorage.getItem('authToken'); // Assume token is stored in localStorage
+
         const response = await axios.get(`${apiUrl}/api/products`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
           withCredentials: true,
         });
         console.log(response.data);

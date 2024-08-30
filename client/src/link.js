@@ -1,1 +1,0 @@
-REACT_APP_API_URL = https://server-ms0pyripx-yousefeslam214s-projects.vercel.app
