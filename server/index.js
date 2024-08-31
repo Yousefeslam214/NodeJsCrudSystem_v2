@@ -25,7 +25,9 @@ app.use(express.urlencoded({ extended: false }))
 // app.use(express.json());
 
 // CORS configuration
+// const allowedOrigins = ['http://localhost:5173']; // Your React app's URL
 const allowedOrigins = ['https://warehouse-management-system-01.netlify.app'];
+
 app.use(cors({
     origin: function (origin, callback) {
         // allow requests with no origin (like mobile apps or curl requests)
@@ -64,6 +66,9 @@ app.use(cors({
 
 
 
+// app.get('/', (req, res) => {
+//     res.send('<h1>Hello World</h1>');
+// });
 
 // routes
 app.use("/api/products", productRoute);
@@ -83,9 +88,6 @@ app.use((error, req, res, next) => {
 })
 
 
-app.get('/', (req, res) => {
-    res.send('<h1>Hello World</h1>');
-});
 
 
 mongoose.connect(process.env.URL).then(() => {
