@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const mongoose = require('mongoose');
 const productRoute = require('./routes/product.route')
-const userRoute = require('./routes/user.route')
+// const userRoute = require('./routes/user.route')
 const hST = require('./utils/httpStatusText');
 
 require('dotenv').config()
@@ -25,29 +25,10 @@ app.use(express.urlencoded({ extended: false }))
 // app.use(express.json());
 
 // CORS configuration
-// const allowedOrigins = ['https://warehouse-management-system-01.netlify.app'];
-// app.use(cors({
-//     origin: function (origin, callback) {
-//         // allow requests with no origin (like mobile apps or curl requests)
-//         if (!origin) return callback(null, true);
-//         if (allowedOrigins.indexOf(origin) === -1) {
-//             const msg = 'The CORS policy for this site does not allow access from the specified origin.';
-//             return callback(new Error(msg), false);
-//         }
-//         return callback(null, true);
-//     },
-//     credentials: true
-// }));
-
-
-
-
-
-// CORS configuration
-const allowedOrigins = ['http://localhost:5173']; // Your React app's URL
-
+const allowedOrigins = ['https://warehouse-management-system-01.netlify.app'];
 app.use(cors({
     origin: function (origin, callback) {
+        // allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
         if (allowedOrigins.indexOf(origin) === -1) {
             const msg = 'The CORS policy for this site does not allow access from the specified origin.';
@@ -62,12 +43,31 @@ app.use(cors({
 
 
 
+// CORS configuration
+// const allowedOrigins = ['http://localhost:5173']; // Your React app's URL
+
+// app.use(cors({
+//     origin: function (origin, callback) {
+//         if (!origin) return callback(null, true);
+//         if (allowedOrigins.indexOf(origin) === -1) {
+//             const msg = 'The CORS policy for this site does not allow access from the specified origin.';
+//             return callback(new Error(msg), false);
+//         }
+//         return callback(null, true);
+//     },
+//     credentials: true
+// }));
+
+
+
+
+
 
 
 
 // routes
 app.use("/api/products", productRoute);
-app.use("/api/users", userRoute);
+// app.use("/api/users", userRoute);
 
 
 // handle wrong routers
