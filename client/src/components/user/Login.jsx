@@ -18,11 +18,14 @@ const Login = () => {
                 { withCredentials: true }  // Include this line
             );
             const { token } = response.data.data;
-            console.log(token);
+            const { id } = response.data.data;
+            // console.log(response.data)
+            document.cookie = `userId=${id}; path=/; max-age=${60 * 60 * 24 * 7}`; // Cookie expires in 7 days
             document.cookie = `authToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}`; // Cookie expires in 7 days
+            // document.cookie = `authToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}`; // Cookie expires in 7 days
 
             // You can remove the line below if you don't need to store the token in localStorage
-            localStorage.setItem('token', token);
+            // localStorage.setItem('token', token);
 
             toast.success('Login successful!');
             navigate('/profile');

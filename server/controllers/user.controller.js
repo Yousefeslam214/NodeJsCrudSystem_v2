@@ -155,16 +155,29 @@ const login = asyncWrapper(async (req, res, next) => {
     // logged in successfully
 
     const token = await generateJWT({ gmail: user.gmail, id: user._id, role: user.role })
+    const id = user._id
     // Set the token in an HTTP-only cookie
-    res.cookie('token', token, {
-      httpOnly: true
-      , // Prevents client-side JavaScript from accessing the cookie
-      secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
-      sameSite: 'Lax', // Allows cookies to be sent with top-level navigations and GET requests
-      maxAge: 24 * 60 * 60 * 1000, // 1 day
-      path: '/', // Make the cookie accessible on all routes
-    });
-    return res.json({ status: hST.SUCCESS, data: { token } })
+    // res.cookie('token', token, {
+    //   httpOnly: true
+    //   , // Prevents client-side JavaScript from accessing the cookie
+    //   secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+    //   sameSite: 'Lax', // Allows cookies to be sent with top-level navigations and GET requests
+    //   maxAge: 24 * 60 * 60 * 1000, // 1 day
+    //   path: '/', // Make the cookie accessible on all routes
+    // });
+    // // Set the id in another HTTP-only cookie
+    // res.cookie('userIdFromNode', String(id), {
+    //   httpOnly: true, // Client-side JavaScript can't access this cookie
+    //   secure: process.env.NODE_ENV === 'production', // Set to true in production for HTTPS
+    //   sameSite: 'Lax', // Allows cookies to be sent with top-level navigations
+    //   maxAge: 24 * 60 * 60 * 1000, // Cookie expires in 1 day
+    //   path: '/' // Cookie available across the entire site
+    // });
+    // res.setHeader('Set-Cookie', cookie.serialize('nauserIdme', String(id), {
+    //   httpOnly: true,
+    //   maxAge: 60 * 60 * 24 * 7 // 1 week
+    // }));
+    return res.json({ status: hST.SUCCESS, data: { token, id } })
   } else {
     const error = AppError.create('something wrong', 500, hST.FAIL)
     return next(error)

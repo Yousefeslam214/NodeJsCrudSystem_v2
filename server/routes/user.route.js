@@ -21,7 +21,9 @@ const router = express.Router();
 
 // Routes setup
 router.route('/').get(getUsers);
-router.route('/:id').get(verifyToken, getUserById).delete(deleteUser);
+router.route('/:id').get(
+    verifyToken,
+     getUserById).delete(deleteUser);
 router.route('/register').post(upload.single('picture'), register);
 router.route('/login').post(login);
 
