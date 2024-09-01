@@ -7,6 +7,7 @@ const AppError = require('../utils/appError'); // Ensure correct import
 const userRoles = require('../utils/userRoutes')
 const multer = require('multer');
 const uploadFile = require('../utils/uploadToFirebase.js'); // Import the upload function
+const cookieParser = require('cookie-parser');
 
 const generateJWT = require('../utils/jwt'); // Typo: should be 'generateJWT'
 
@@ -154,6 +155,15 @@ const login = asyncWrapper(async (req, res, next) => {
     // logged in successfully
 
     const token = await generateJWT({ gmail: user.gmail, id: user._id, role: user.role })
+    // Set the token in an HTTP-only cookie
+    res.cookie('token', token, {
+      httpOnly: true
+      , // Prevents client-side JavaScript from accessing the cookie
+      secure: process.env.NODE_ENV === 'production', // Use HTTPS in production
+      sameSite: 'Lax', // Allows cookies to be sent with top-level navigations and GET requests
+      maxAge: 24 * 60 * 60 * 1000, // 1 day
+      path: '/', // Make the cookie accessible on all routes
+    });
     return res.json({ status: hST.SUCCESS, data: { token } })
   } else {
     const error = AppError.create('something wrong', 500, hST.FAIL)

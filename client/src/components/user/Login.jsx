@@ -12,15 +12,21 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post(`${apiUrl}/api/users/login`, { gmail, password }); // Replace with your API endpoint
+            const response = await axios.post(
+                `${apiUrl}/api/users/login`,
+                { gmail, password },
+                { withCredentials: true }  // Include this line
+            );
             const { token } = response.data.data;
-            console.log(token)
+            console.log(token);
+            document.cookie = `authToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}`; // Cookie expires in 7 days
+
+            // You can remove the line below if you don't need to store the token in localStorage
             localStorage.setItem('token', token);
 
             toast.success('Login successful!');
             navigate('/profile');
         } catch (error) {
-            // Display error from server or a generic message
             const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
             toast.error(errorMessage);
         }
