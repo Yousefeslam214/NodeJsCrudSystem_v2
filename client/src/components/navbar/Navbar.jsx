@@ -24,6 +24,7 @@ const pages = [
 
 const settings = [
   { name: 'My Profile', path: '/profile' },
+  { name: 'login', path: '/login' },
   { name: 'Logout', path: '/logout' },
 ];
 
@@ -162,7 +163,7 @@ function Navbar() {
                 <Avatar alt="User" src="../../../public/7309681.webp" />
               </IconButton>
             </Tooltip>
-            {/* <Menu
+            <Menu
                             sx={{ mt: '45px' }}
                             id="menu-appbar"
                             anchorEl={anchorElUser}
@@ -183,7 +184,7 @@ function Navbar() {
                                     <Typography textAlign="center">{name}</Typography>
                                 </MenuItem>
                             ))}
-                        </Menu> */}
+                        </Menu>
           </Box>
         </Toolbar>
 

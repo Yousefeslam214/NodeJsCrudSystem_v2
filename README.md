@@ -130,14 +130,3 @@ npm start</code></pre>
 
 
 
-
-
-{
-    "userName": "yousef",
-    "gmail": "johndssosse28@gmail.com",
-    "password": "password123",
-    "age": 30,
-    "picture": "https://example.com/images/johndoe.jpg"
-    // ,
-    // "role": "ADMIN"
-}
