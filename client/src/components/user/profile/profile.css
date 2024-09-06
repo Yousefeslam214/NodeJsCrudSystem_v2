@@ -1,0 +1,122 @@
+/* profile.css */
+.profileContainer {
+    max-width: 600px;
+    margin: auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.profileDetails {
+    margin-bottom: 20px;
+}
+
+.profilePicture {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.profileDetails p {
+    margin: 5px 0;
+}
+
+.profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.profileForm input,
+.profileForm select {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+.profileForm input:focus,
+.profileForm select:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+/* Role Select */
+.roleSelect {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.roleSelect:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.roleSelect:hover {
+    background-color: #f0f0f0;
+}
+
+.updateButton {
+    padding: 10px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.updateButton:hover {
+    background-color: #0056b3;
+}
+
+.logoutButton {
+    padding: 10px;
+    background-color: #FF6347;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+    background-color: #d9534f;
+}
+
+/* Accessibility improvements */
+.updateButton:focus,
+.logoutButton:focus {
+    outline: 2px solid #0056b3;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+    .profileContainer {
+        padding: 10px;
+    }
+
+    .profileForm input,
+    .profileForm select {
+        font-size: 14px;
+    }
+
+    .updateButton,
+    .logoutButton {
+        font-size: 14px;
+        padding: 8px;
+    }
+}

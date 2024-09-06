@@ -12,9 +12,10 @@ import Update from './components/updateProduct/Update'
 import { createTheme } from '@mui/material/styles';
 import { ThemeProvider } from '@mui/material/styles';
 import Help from "./components/help/Help";
-import Profile from './components/user/Profile';
 import SignUp from './components/user/SignUp';
 import Login from './components/user/Login';
+import NetworkStatus from "./components/user/NetworkStatus";
+import Profile from "./components/user/profile/Profile";
 
 
 
@@ -44,7 +45,10 @@ function App() {
     <div className="App">
 
       <Navbar />
+
+      <NetworkStatus />
       <Container>
+
         <Routes>
           <Route path="/" element={<About />} />
           <Route path="/products" element={<Products />} />

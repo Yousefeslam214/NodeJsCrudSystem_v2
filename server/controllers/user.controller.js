@@ -99,7 +99,7 @@ const register = asyncWrapper(async (req, res, next) => {
 // Update a user
 const updateUser = asyncWrapper(async (req, res, next) => {
   const { id } = req.params;
-  const { password, ...updateData } = req.body;
+  const { password, gmail, ...updateData } = req.body;
 
   if (password) {
     updateData.password = await bcrypt.hash(password, 10);
