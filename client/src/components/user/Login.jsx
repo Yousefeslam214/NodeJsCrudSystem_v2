@@ -37,7 +37,8 @@ const Login = () => {
       );
       const { token } = response.data.data;
       const { id } = response.data.data;
-
+console.log(id)
+      console.log(token)
       document.cookie = `userId=${id}; path=/; max-age=${60 * 60 * 24 * 7}`;
       document.cookie = `authToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}`;
 

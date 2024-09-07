@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import './profile.css'; // Import the CSS file
-import LoadingSpinner from '../../global/loadingSpinner/LoadingSpinner'; // Import the global LoadingSpinner component
+import ProfilePicture from './ProfilePicture';
+import ProfileDetails from './ProfileDetails';
+import ProfileForm from './ProfileForm';
+import './profile.css';
+import LoadingSpinner from '../../global/loadingSpinner/LoadingSpinner';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Import the CSS for react-toastify
+import 'react-toastify/dist/ReactToastify.css';
+import { userRoles } from './userRoles'; // Import userRoles from the new file
+// import { setUser, clearUser } from '../../../redux/userSlice'; // Import action creators
+// import { useSelector, useDispatch } from 'react-redux';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
-// Function to get a cookie by name
 function getCookie(name) {
   const value = `; ${document.cookie}`;
   const parts = value.split(`; ${name}=`);
@@ -16,20 +21,17 @@ function getCookie(name) {
   }
   return null;
 }
-const userRoles = {
-  USER: "USER",
-  MANGER: "MANGER",
-  ADMIN: "ADMIN",
-}
 
 const Profile = () => {
-  const [user, setUser] = useState(null);
+  // const user = useSelector((state) => state.user); // Access user from Redux store
+  // const dispatch = useDispatch();
   const [errorMessage, setErrorMessage] = useState('');
   const [loading, setLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
   const [imageLoading, setImageLoading] = useState(true);
-
+  const [user, setUser] = useState(null);
   const [formData, setFormData] = useState({
+
     userName: '',
     gmail: '',
     age: '',
@@ -38,10 +40,10 @@ const Profile = () => {
   const [hasChanged, setHasChanged] = useState(false);
 
   const handleLogout = () => {
-    // Clear cookies
-    document.cookie = 'authToken=; path=/; max-age=0';
-    document.cookie = 'userId=; path=/; max-age=0';
-    window.location.href = '/login';
+    // document.cookie = 'authToken=; path=/; max-age=0';
+    // document.cookie = 'userId=; path=/; max-age=0';
+    // dispatch(clearUser()); // Clear user from Redux store
+    // window.location.href = '/login';
   };
 
   const handleImageError = () => {
@@ -61,7 +63,13 @@ const Profile = () => {
       if (!cookieToken || !userId) {
         setErrorMessage('Authentication error: Cookies are missing or expired. Please log in again.');
         setLoading(false);
-        handleLogout();
+        // handleLogout();
+        return;
+      }
+      if (!cookieToken && !userId) {
+        setErrorMessage('Authentication error: Cookies are missing or expired. Please log in again.');
+        setLoading(false);
+        // handleLogout();
         return;
       }
 
@@ -90,6 +98,7 @@ const Profile = () => {
 
     fetchProfile();
   }, []);
+  // }, [dispatch]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -97,7 +106,6 @@ const Profile = () => {
       ...prev,
       [name]: value
     }));
-    // Compare formData with user data to check for changes
     if (user) {
       setHasChanged(
         JSON.stringify({ ...user, [name]: value }) !== JSON.stringify(user)
@@ -135,58 +143,19 @@ const Profile = () => {
   return (
     <div className="profileContainer">
       <ToastContainer />
-
       <h1>Profile Page</h1>
-      <div className="profileDetails">
-        {user.picture && !imageError ? (
-          <img
-            src={user.picture}
-            alt="Profile"
-            className="profilePicture"
-            loading="lazy"
-            onError={handleImageError}
-            onLoad={handleImageLoad}
-          />
-        ) : (
-          !imageError && <LoadingSpinner />
-        )}
-        <p><strong>Name:</strong> {user.userName}</p>
-        <p><strong>Email:</strong> {user.gmail}</p>
-        <p><strong>Age:</strong> {user.age}</p>
-        <p><strong>Role:</strong> {user.role}</p>
-      </div>
-      <form className="profileForm" onSubmit={handleUpdate}>
-        <h2>Update Profile</h2>
-        <input
-          type="text"
-          name="userName"
-          value={formData.userName}
-          onChange={handleInputChange}
-          placeholder="Name"
-        />
-        <input
-          type="number"
-          name="age"
-          value={formData.age}
-          onChange={handleInputChange}
-          placeholder="Age"
-          min="12"
-          max="80"
-        />
-        <select
-          name="role"
-          value={formData.role}
-          onChange={handleInputChange}
-          className="roleSelect"
-        >
-          {Object.values(userRoles).map((role) => (
-            <option key={role} value={role}>
-              {role}
-            </option>
-          ))}
-        </select>
-        <button type="submit" className="updateButton">Update</button>
-      </form>
+      <ProfilePicture
+        picture={user.picture}
+        onError={handleImageError}
+        onLoad={handleImageLoad}
+      />
+      <ProfileDetails user={user} />
+      <ProfileForm
+        formData={formData}
+        handleInputChange={handleInputChange}
+        handleUpdate={handleUpdate}
+        userRoles={userRoles}
+      />
       <button className="logoutButton" onClick={handleLogout}>Logout</button>
     </div>
   );

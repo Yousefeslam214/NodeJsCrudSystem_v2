@@ -1,11 +1,21 @@
-import React from 'react';
 import './about.css'; // Make sure to create this CSS file for custom styling
+import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux';
 
 const About = () => {
+    const user = useSelector((state) => state.user.user); // Accessing user data from Redux state
+    const loading = useSelector((state) => state.user.loading); // Checking loading state
+    const error = useSelector((state) => state.user.error); // Checking error state
+    useEffect(() => {
+        console.log("User data:", user); // Log user data
+        console.log("Loading status:", loading); // Log loading status
+        console.log("Error:", error); // Log any errors
+    }, [user, loading, error]);
+
     return (
         <div className="aboutContainer">
             <h1>About Our Warehouse Management System</h1>
-        {/* style to mobile text-align: center; font-size: 27px; */}
+            {/* style to mobile text-align: center; font-size: 27px; */}
             <p>
                 Welcome to our Warehouse Management System (WMS), a powerful tool designed to help businesses efficiently manage their inventory and streamline their operations.
             </p>

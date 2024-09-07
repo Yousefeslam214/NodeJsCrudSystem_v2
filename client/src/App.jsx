@@ -16,10 +16,33 @@ import SignUp from './components/user/SignUp';
 import Login from './components/user/Login';
 import NetworkStatus from "./components/user/NetworkStatus";
 import Profile from "./components/user/profile/Profile";
+import { useDispatch } from 'react-redux';
 
-
+import { fetchUserData } from './redux/userSlice'; // Import the thunk action
+import { useEffect } from "react";
+// import { getCookie } from './components/global/cookieUtils/cookieUtils'
 
 function App() {
+  const dispatch = useDispatch();
+  // cookieUtils()
+  // console.log(getCookie("authToken"))
+
+  useEffect(() => {
+    // const userId = getCookie('userId'); // Fetch user ID from cookies
+    // const cookieToken = getCookie('authToken'); // Fetch token from cookies
+    // Automatically fetch user data with a specific user ID
+    dispatch(fetchUserData({
+      userId: '66cfe281ee84f7500051acd1', // Replace with actual user ID
+      cookieToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnbWFpbCI6ImpvaG5kc3Nvc3NlMzlAZ21haWwuY29tIiwiaWQiOiI2NmNmZTI4MWVlODRmNzUwMDA1MWFjZDEiLCJyb2xlIjoiTUFOQUdFUiIsImlhdCI6MTcyNTY5NjE3MSwiZXhwIjoxNzI1Njk5NzcxfQ.-lbe81YtuHUAB_FmFiiWg8tfsTHzbeFwIhmLAJHwPmA', // Replace with actual token
+      // userId: getCookie("userId"), // Replace with actual user ID
+      // cookieToken: getCookie("authToken"), // Replace with actual token
+    }));
+    // if (userId && cookieToken) {
+    //   dispatch(fetchUserData({ userId, cookieToken }));
+    // } else {
+    //   console.error('User ID or auth token missing');
+    // }
+  }, [dispatch]);
   // const route = createBrowserRouter([
   //   {
   //     path: "/",

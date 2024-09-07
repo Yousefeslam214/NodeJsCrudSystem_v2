@@ -142,6 +142,7 @@ const login = asyncWrapper(async (req, res, next) => {
     const error = AppError.create('gmail and password are required', 400, hST.FAIL);
     return next(error);
   }
+
   const user = await User.findOne({ gmail: gmail });
   if (!user) {
     const error = AppError.create('user not found', 400, hST.FAIL);
