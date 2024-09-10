@@ -14,6 +14,10 @@ const About = () => {
 
     return (
         <div className="aboutContainer">
+            <h1>Redux State Check</h1>
+            {loading && <p>Loading...</p>}
+            {error && <p>Error: {error}</p>}
+            {user && <p>User: {JSON.stringify(user)}</p>}
             <h1>About Our Warehouse Management System</h1>
             {/* style to mobile text-align: center; font-size: 27px; */}
             <p>

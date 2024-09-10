@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
+import './login.css'; // Import the CSS file
 const apiUrl = import.meta.env.VITE_API_URL;
 
 const Login = () => {
@@ -37,8 +38,8 @@ const Login = () => {
       );
       const { token } = response.data.data;
       const { id } = response.data.data;
-console.log(id)
-      console.log(token)
+      console.log(id);
+      console.log(token);
       document.cookie = `userId=${id}; path=/; max-age=${60 * 60 * 24 * 7}`;
       document.cookie = `authToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}`;
 
@@ -51,16 +52,17 @@ console.log(id)
   };
 
   return (
-    <div>
+    <div className="login-container">
       <Toaster />
       <h2>Login</h2>
-      <form onSubmit={handleLogin}>
+      <form onSubmit={handleLogin} className="login-form">
         <input
           type="text"
           placeholder="Gmail"
           value={gmail}
           onChange={(e) => setGmail(e.target.value)}
           required
+          className="login-input"
         />
         <input
           type="password"
@@ -68,8 +70,9 @@ console.log(id)
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          className="login-input"
         />
-        <button type="submit">Login</button>
+        <button type="submit" className="login-button">Login</button>
       </form>
     </div>
   );

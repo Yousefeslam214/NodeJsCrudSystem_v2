@@ -48,53 +48,119 @@ const getUserById = asyncWrapper(async (req, res, next) => {
 
 
 
+// // Register a new user
+// const register = asyncWrapper(async (req, res, next) => {
+//   // console.log('yousef')
+//   const { userName, gmail, password, age, picture, role } = req.body;
+//   // console.log(req.body)
+//   const oldUser = await User.findOne({ gmail: gmail })
+//   if (oldUser) {
+//     const error = AppError.create('user already exists', 400, hST.FAIL)
+//     return next(error)
+//   }
+//   // password hashing
+//   const hashedPassword = await bcrypt.hash(password, 1)
+//   const newUser = new User({
+//     userName,
+//     gmail,
+//     password: hashedPassword,
+//     age,
+//     role,
+//     picture: ""
+//   });
+
+//   const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
+//   newUser.token = token;
+
+
+//   await newUser.save();
+//   try {
+//     const fileUrl = await uploadFile(req.file, `folder/${Date.now()}_${req.file.originalname}`);
+//     newUser.picture = fileUrl;
+//     await newUser.save();
+
+//     res.status(201).json({
+//       status: hST.SUCCESS, data: {
+//         user: newUser
+//       }
+//     });
+//   }
+//   catch (error) {
+//     return res.status(404).json({
+//       status: hST.ERROR,
+//       data: {
+//         message: 'user create but the picture not created',
+//         user: newUser
+//       }
+//     });
+//   }
+// });
+
+
 // Register a new user
 const register = asyncWrapper(async (req, res, next) => {
-  // console.log('yousef')
-  const { userName, gmail, password, age, picture, role } = req.body;
-  // console.log(req.body)
-  const oldUser = await User.findOne({ gmail: gmail })
-  if (oldUser) {
-    const error = AppError.create('user already exists', 400, hST.FAIL)
-    return next(error)
+  const { userName, gmail, password, age, role } = req.body;
+
+  // Check if the user already exists
+  const existingUser = await User.findOne({ gmail });
+  if (existingUser) {
+    return next(AppError.create('User already exists', 400, hST.FAIL));
   }
-  // password hashing
-  const hashedPassword = await bcrypt.hash(password, 1)
+
+  // Hash the password
+  const hashedPassword = await bcrypt.hash(password, 10); // Use 10 rounds for better security
+
+  // Create a new user instance
   const newUser = new User({
     userName,
     gmail,
     password: hashedPassword,
     age,
     role,
-    picture: ""
+    picture: '', // Initialize with an empty string
   });
 
+  // Generate JWT token
   const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
   newUser.token = token;
 
-
-  await newUser.save();
   try {
-    const fileUrl = await uploadFile(req.file, `folder/${Date.now()}_${req.file.originalname}`);
-    newUser.picture = fileUrl;
+    // Attempt to upload the picture if provided
+    if (req.file) {
+      newUser.picture = await uploadFile(req.file, `folder/${Date.now()}_${req.file.originalname}`);
+    }
+
+    // Save the new user to the database
     await newUser.save();
 
+    // Respond with success status and the new user data
     res.status(201).json({
-      status: hST.SUCCESS, data: {
-        user: newUser
-      }
-    });
-  }
-  catch (error) {
-    return res.status(404).json({
-      status: hST.ERROR,
+      status: hST.SUCCESS,
       data: {
-        message: 'user create but the picture not created',
-        user: newUser
-      }
+        user: newUser,
+      },
+    });
+  } catch (error) {
+    // If picture upload fails, respond with the user creation but note the picture error
+    newUser.picture = '';
+    await newUser.save(); // Save without the picture URL if upload fails
+
+    // Return the error response, but indicate that the user was created
+    res.status(201).json({
+      status: hST.WARNING, // Different status code for partial success
+      data: {
+        message: 'User created, but the picture could not be uploaded.',
+        user: newUser,
+      },
     });
   }
 });
+
+
+
+
+
+
 
 // Update a user
 const updateUser = asyncWrapper(async (req, res, next) => {

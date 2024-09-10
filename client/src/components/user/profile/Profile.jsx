@@ -10,6 +10,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { userRoles } from './userRoles'; // Import userRoles from the new file
 // import { setUser, clearUser } from '../../../redux/userSlice'; // Import action creators
 // import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+import { Logout } from '../../global/logout/Logout';
 
 const apiUrl = import.meta.env.VITE_API_URL;
 
@@ -34,17 +36,17 @@ const Profile = () => {
 
     userName: '',
     gmail: '',
-    age: '',
+    age: 0,
     role: ''
   });
   const [hasChanged, setHasChanged] = useState(false);
 
-  const handleLogout = () => {
-    // document.cookie = 'authToken=; path=/; max-age=0';
-    // document.cookie = 'userId=; path=/; max-age=0';
-    // dispatch(clearUser()); // Clear user from Redux store
-    // window.location.href = '/login';
-  };
+  // const handleLogout = () => {
+  //   document.cookie = 'authToken=; path=/; max-age=0';
+  //   document.cookie = 'userId=; path=/; max-age=0';
+  //   // dispatch(clearUser()); // Clear user from Redux store
+  //   window.location.href = '/login';
+  // };
 
   const handleImageError = () => {
     setImageError(true);
@@ -54,7 +56,9 @@ const Profile = () => {
   const handleImageLoad = () => {
     setImageLoading(false);
   };
-
+  const userRedux = useSelector((state) => state.user.user); // Accessing user data from Redux state
+  const loadingRedux = useSelector((state) => state.user.loading); // Checking loading state
+  const errorRedux = useSelector((state) => state.user.error); // Checking error state
   useEffect(() => {
     const fetchProfile = async () => {
       const cookieToken = getCookie('authToken');
@@ -63,13 +67,13 @@ const Profile = () => {
       if (!cookieToken || !userId) {
         setErrorMessage('Authentication error: Cookies are missing or expired. Please log in again.');
         setLoading(false);
-        // handleLogout();
+        Logout();
         return;
       }
       if (!cookieToken && !userId) {
         setErrorMessage('Authentication error: Cookies are missing or expired. Please log in again.');
         setLoading(false);
-        // handleLogout();
+        Logout();
         return;
       }
 
@@ -80,6 +84,9 @@ const Profile = () => {
           }
         });
         const userData = response.data.data.user;
+        // const userData = userRedux;
+        console.log(userData)
+        console.log(userRedux)
         setUser(userData);
         setFormData({
           userName: userData.userName,
@@ -90,7 +97,8 @@ const Profile = () => {
       } catch (error) {
         console.error('Failed to fetch profile', error);
         setErrorMessage('Failed to fetch profile: Unauthorized access. Please check your login status.');
-        handleLogout();
+        // Logout();
+        Logout()
       } finally {
         setLoading(false);
       }
@@ -104,14 +112,26 @@ const Profile = () => {
     const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [name]: value
+      [name]: name === 'age' ? Number(value) : value
     }));
     if (user) {
       setHasChanged(
-        JSON.stringify({ ...user, [name]: value }) !== JSON.stringify(user)
+        JSON.stringify({ ...user, [name]: name === 'age' ? Number(value) : value }) !== JSON.stringify(user)
       );
     }
   };
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     [name]: value
+  //   }));
+  //   if (user) {
+  //     setHasChanged(
+  //       JSON.stringify({ ...user, [name]: value }) !== JSON.stringify(user)
+  //     );
+  //   }
+  // };
 
   const handleUpdate = async (e) => {
     e.preventDefault();
@@ -140,6 +160,7 @@ const Profile = () => {
   if (loading) return <LoadingSpinner />;
   if (errorMessage) return <p>{errorMessage}</p>;
 
+
   return (
     <div className="profileContainer">
       <ToastContainer />
@@ -156,7 +177,7 @@ const Profile = () => {
         handleUpdate={handleUpdate}
         userRoles={userRoles}
       />
-      <button className="logoutButton" onClick={handleLogout}>Logout</button>
+      <button className="logoutButton" onClick={Logout}>Logout</button>
     </div>
   );
 };

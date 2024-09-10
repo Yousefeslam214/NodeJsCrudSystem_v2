@@ -15,7 +15,22 @@ const ProfilePicture = ({ picture, onError, onLoad }) => {
                     onLoad={onLoad}
                 />
             ) : (
-                <LoadingSpinner />
+
+                <div
+                    className='ProfilePicture'
+                    style={{
+                        width: '100px',
+                        height: '100px',
+                        borderRadius: '50%',
+                        backgroundColor: '#1976d2e6', // Display white background
+                        // border: '1px solid #ccc' // Optional: Add border for visibility
+                        margin: 'auto',
+                        // borderRadius: 50%,
+                        objectFit: 'cover',
+                        marginBottom: '10px'
+                    }}
+                />
+                // <LoadingSpinner />
             )}
         </>
     );

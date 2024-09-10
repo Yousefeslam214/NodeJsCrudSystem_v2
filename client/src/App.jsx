@@ -20,7 +20,8 @@ import { useDispatch } from 'react-redux';
 
 import { fetchUserData } from './redux/userSlice'; // Import the thunk action
 import { useEffect } from "react";
-// import { getCookie } from './components/global/cookieUtils/cookieUtils'
+import { getCookie } from './components/global/cookieUtils/cookieUtils'
+import Register from "./components/user/register/Register";
 
 function App() {
   const dispatch = useDispatch();
@@ -32,10 +33,10 @@ function App() {
     // const cookieToken = getCookie('authToken'); // Fetch token from cookies
     // Automatically fetch user data with a specific user ID
     dispatch(fetchUserData({
-      userId: '66cfe281ee84f7500051acd1', // Replace with actual user ID
-      cookieToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnbWFpbCI6ImpvaG5kc3Nvc3NlMzlAZ21haWwuY29tIiwiaWQiOiI2NmNmZTI4MWVlODRmNzUwMDA1MWFjZDEiLCJyb2xlIjoiTUFOQUdFUiIsImlhdCI6MTcyNTY5NjE3MSwiZXhwIjoxNzI1Njk5NzcxfQ.-lbe81YtuHUAB_FmFiiWg8tfsTHzbeFwIhmLAJHwPmA', // Replace with actual token
-      // userId: getCookie("userId"), // Replace with actual user ID
-      // cookieToken: getCookie("authToken"), // Replace with actual token
+      // userId: '66cfe281ee84f7500051acd1', // Replace with actual user ID
+      // cookieToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJnbWFpbCI6ImpvaG5kc3Nvc3NlMzlAZ21haWwuY29tIiwiaWQiOiI2NmNmZTI4MWVlODRmNzUwMDA1MWFjZDEiLCJyb2xlIjoiTUFOQUdFUiIsImlhdCI6MTcyNTY5NjE3MSwiZXhwIjoxNzI1Njk5NzcxfQ.-lbe81YtuHUAB_FmFiiWg8tfsTHzbeFwIhmLAJHwPmA', // Replace with actual token
+      userId: getCookie("userId"), // Replace with actual user ID
+      cookieToken: getCookie("authToken"), // Replace with actual token
     }));
     // if (userId && cookieToken) {
     //   dispatch(fetchUserData({ userId, cookieToken }));
@@ -81,6 +82,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           {/* <Route path="/logout" element={<Logout />} /> */}
           {/* Define other routes as needed */}
         </Routes>
