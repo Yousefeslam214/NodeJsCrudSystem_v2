@@ -121,9 +121,9 @@ const register = asyncWrapper(async (req, res, next) => {
   });
 
   // Generate JWT token
+  const id = newUser._id
   const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
   newUser.token = token;
-
   try {
     // Attempt to upload the picture if provided
     if (req.file) {
@@ -137,7 +137,7 @@ const register = asyncWrapper(async (req, res, next) => {
     res.status(201).json({
       status: hST.SUCCESS,
       data: {
-        user: newUser,
+        user: newUser, token: token, id: id
       },
     });
   } catch (error) {

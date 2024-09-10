@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import toast, { Toaster } from 'react-hot-toast';
-import imageCompression from 'browser-image-compression'; // Import the compression library
 import './register.css'; // Import the new CSS file
 
 const apiUrl = import.meta.env.VITE_API_URL;
@@ -27,32 +26,23 @@ const Register = () => {
         }));
     };
 
-    const handleFileChange = async (e) => {
+    const handleFileChange = (e) => {
         const file = e.target.files[0];
         if (file) {
-            try {
-                // Compress the image if it exceeds 1MB
-                const options = {
-                    maxSizeMB: 1, // Maximum file size in MB
-                    maxWidthOrHeight: 1920, // Optional: to maintain the aspect ratio of the image
-                    useWebWorker: true,
-                };
-
-                let compressedFile = file;
-
-                // Check if the file size exceeds 1MB
-                if (file.size / 1024 / 1024 > 1) {
-                    compressedFile = await imageCompression(file, options);
-                    toast.info('Image has been compressed to fit under 1MB.');
-                }
-
+            // Check if the file size exceeds 1MB
+            if (file.size / 1024 / 1024 > 1) {
+                toast.info('Image is too large. Please choose an image under 1MB.');
+                // Clear the input field
+                e.target.value = null;
                 setFormData((prev) => ({
                     ...prev,
-                    picture: compressedFile, // Update the state with the compressed file
+                    picture: null, // Clear the picture state
                 }));
-            } catch (error) {
-                console.error('Error compressing the image:', error);
-                toast.error('Failed to compress the image. Please try again.');
+            } else {
+                setFormData((prev) => ({
+                    ...prev,
+                    picture: file, // Update the state with the selected file
+                }));
             }
         }
     };
@@ -72,21 +62,23 @@ const Register = () => {
         }
 
         try {
+            // Register the user
             const response = await axios.post(`${apiUrl}/api/users/register`, data, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            toast.success('Registration successful! Please log in.');
-            setFormData({
-                userName: '',
-                gmail: '',
-                password: '',
-                age: '',
-                role: 'USER',
-                picture: null,
-            });
-            navigate('/login'); // Redirect to login after successful registration
+
+            // Extract token and id from response
+            const { token, id } = response.data.data;
+
+            // Set cookies
+            document.cookie = `userId=${id}; path=/; max-age=${60 * 60 * 24 * 7}`;
+            document.cookie = `authToken=${token}; path=/; max-age=${60 * 60 * 24 * 7}`;
+
+            toast.success('Registration successful and logged in!');
+            navigate('/profile'); // Redirect to profile after successful login
+
         } catch (error) {
             const errorMessage = error.response?.data?.message || 'Registration failed. Please try again.';
             toast.error(errorMessage);

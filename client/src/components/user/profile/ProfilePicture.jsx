@@ -16,8 +16,7 @@ const ProfilePicture = ({ picture, onError, onLoad }) => {
                 />
             ) : (
 
-                <div
-                    className='ProfilePicture'
+                <img src='../../../../public/avatar.webp'
                     style={{
                         width: '100px',
                         height: '100px',
