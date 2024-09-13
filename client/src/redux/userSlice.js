@@ -85,7 +85,7 @@ export const fetchUserData = createAsyncThunk(
             }
             );
             console.log("response")
-            console.log(response.data.data.user)
+            // console.log(response.data.data.user)
 
             return response.data.data.user;
         } catch (error) {

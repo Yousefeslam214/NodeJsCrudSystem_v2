@@ -61,7 +61,7 @@ const EnterProducts = () => {
         },
         withCredentials: true,
       });
-      console.log(response.data.data.p)
+      // console.log(response.data.data.p)
       // setUsers((prevUsers) => [...prevUsers, response.data]);
       setUsers((prevUsers) => {
         console.log('Previous users:', prevUsers); // Log previous state
@@ -73,7 +73,7 @@ const EnterProducts = () => {
       }, 500);
     } catch (error) {
       console.log('Error creating product', error);
-      console.log('Error creating product because you are ', error.request.statusText);
+      // console.log('Error creating product because you are ', error.request.statusText);
       toast.error(`Failed to create product because you are ${error.request.statusText} please login again`, { position: 'top-right' });
     }
   };

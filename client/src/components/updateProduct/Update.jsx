@@ -35,7 +35,7 @@ const Update = () => {
         },
       })
       .then((response) => {
-        console.log(response.data.data.product)
+        // console.log(response.data.data.product)
         setUser(response.data.data.product);
       })
       .catch((error) => {

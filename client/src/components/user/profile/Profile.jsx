@@ -64,7 +64,7 @@ const Profile = () => {
   const userId = getCookie('userId');
 
   try {
-   console.log("step1")
+//    console.log("step1")
    const response = await axios.put(`${apiUrl}/api/users/${userId}`
     //  , imageFormData, {
     //  // headers: {
