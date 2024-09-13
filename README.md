@@ -1,6 +1,3 @@
-<head>
-    <title>My Full Stack Project</title>
-</head>
 <body>
     <h1>My Full Stack Project</h1>
     <p>This project is a full-stack application built with the following technologies:</p>
