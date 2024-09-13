@@ -9,12 +9,14 @@ const allowedOrigins = [
 ];
 
 const corsOptions = {
-    origin: function (origin, callback) {
+    origin: (origin, callback) => {
         // Allow requests with no origin (like mobile apps or curl requests)
-        if (!origin) return callback(null, true);
+        if (!origin) {
+            return callback(null, true);
+        }
 
         // Check if the origin is in the allowed origins array
-        if (allowedOrigins.indexOf(origin) === -1) {
+        if (!allowedOrigins.includes(origin)) {
             const msg = 'The CORS policy for this site does not allow access from the specified origin.';
             return callback(new Error(msg), false);
         }
