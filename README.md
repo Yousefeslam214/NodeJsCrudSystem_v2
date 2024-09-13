@@ -27,7 +27,7 @@ cd my-fullstack-project</code></pre>
 cd server
 npm install
 
-           # Install frontend dependencies
+\# Install frontend dependencies
 cd ../client
 npm install</code></pre>
 </li>
