@@ -22,6 +22,7 @@ import { fetchUserData } from './redux/userSlice'; // Import the thunk action
 import { useEffect } from "react";
 import { getCookie } from './components/global/cookieUtils/cookieUtils'
 import Register from "./components/user/register/Register";
+import ProfileForm from "./components/user/profile/ProfileForm";
 
 function App() {
   const dispatch = useDispatch();
@@ -83,6 +84,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/update" element={<ProfileForm />} />
           {/* <Route path="/logout" element={<Logout />} /> */}
           {/* Define other routes as needed */}
         </Routes>

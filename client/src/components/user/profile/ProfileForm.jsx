@@ -33,6 +33,20 @@ const ProfileForm = ({ formData, handleInputChange, handleUpdate, userRoles }) =
           </option>
         ))}
       </select>
+      {/* <div className="uploadSection">
+        <label htmlFor="profilePicture">Upload Picture:</label>
+
+        <input
+          type="file"
+          id="profilePicture"
+
+          name="profilePicture"
+          accept="image/*"
+
+          value={formData.picture}
+          onChange={handleInputChange}
+        />
+      </div> */}
       <button type="submit" className="updateButton">Update</button>
     </form>
   );

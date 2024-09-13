@@ -23,7 +23,7 @@ const router = express.Router();
 router.route('/').get(getUsers);
 router.route('/:id').get(
     verifyToken,
-    getUserById).delete(deleteUser).put(updateUser);
+    getUserById).delete(deleteUser).put(upload.single('picture'), updateUser);
 router.route('/register').post(upload.single('picture'), register);
 router.route('/login').post(login);
 

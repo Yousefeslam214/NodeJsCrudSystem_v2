@@ -15,6 +15,7 @@ import AdbIcon from '@mui/icons-material/Adb';
 import { useNavigate } from 'react-router-dom';
 import './navbar.css';
 import { Logout } from '../global/logout/Logout'; // Ensure this path is correct
+import { useSelector } from 'react-redux';
 
 const pages = [
   { name: 'About', path: '/' },
@@ -32,9 +33,22 @@ const settings = [
 ];
 
 function Navbar() {
+  const fallbackImage = "../../../public/avatar.webp";
+  const [currentImage, setCurrentImage] = React.useState(fallbackImage); // State for the current image
+
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user.user);
+  const userPicture = user?.picture;
+  // console.log(userPicture)
+  React.useEffect(() => {
+    // Update the current image when userPicture changes
+    if (userPicture) {
+      setCurrentImage(userPicture); // Set to the user's picture if it exists
+    }
+  }, [userPicture]); // Dependency array with userPicture to trigger updates
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -169,7 +183,8 @@ function Navbar() {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="User" src="../../../public/avatar.webp" />
+                {/* <Avatar alt="User" src="../../../public/avatar.webp" /> */}
+                <Avatar alt="User" src={currentImage} />
               </IconButton>
             </Tooltip>
             <Menu

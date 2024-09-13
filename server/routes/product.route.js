@@ -7,28 +7,19 @@ const router = express.Router();
 const allowedTo = require('../middleware/allowedTo')
 
 
-// router.get('/', getProducts);
-// router.post('/', createProduct);
-router.route('/').get(
-    // verifyToken
-    // ,
-    getProducts
-).post(
-    // verifyToken,
-    createProduct)
-// router.get('/:id', getProductById);
-// router.put('/:id', updateProduct);
-// router.delete('/:id', deleteProduct);
+router.route('/')
+    .get(getProducts)
+    .post(verifyToken,
+        createProduct)
 
 router.route('/:id')
     .get(
-        // verifyToken,
         getProductById)
     .put(updateProduct)
     // .patch(updateProduct)
     .delete(
-        // verifyToken,
-        // allowedTo(userRoles.ADMIN, userRoles.MANGER),
+        verifyToken,
+        allowedTo(userRoles.ADMIN, userRoles.MANAGER),
         deleteProduct)
 
 

@@ -130,3 +130,192 @@
     font-size: 8px !important;
   }
 }
+
+
+/* Pagination Controls */
+.pagination-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.pagination-controls button {
+    background-color: darkcyan;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.pagination-controls button:disabled {
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.pagination-controls span {
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+/* Limit Controls */
+.limit-controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.limit-controls label {
+    font-size: 16px;
+}
+
+.limit-controls select {
+    padding: 5px;
+    margin-left: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+    .pagination-controls button {
+        padding: 5px 10px;
+        font-size: 12px;
+        margin: 0 3px;
+    }
+
+    .pagination-controls span {
+        font-size: 14px;
+    }
+
+    .limit-controls label {
+        font-size: 14px;
+    }
+
+    .limit-controls select {
+        font-size: 12px;
+    }
+}
+
+/**sssssssssssssssssssssssssssssssss**/
+
+
+/* Container for the table */
+.table-container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Initial state before animation */
+.table-container .table-content {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+/* Final state after animation */
+.table-container .table-content.show {
+    opacity: 1;
+}
+/* Animation for the table */
+.table-content {
+    position: absolute;
+    width: 100%;
+    top: 0;
+    left: 0;
+}
+
+
+/*MMMMMMMMMMMMMMMMMMM*/
+/* Add styles for the fade-in effect */
+.table-container {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.table-container.show {
+    opacity: 1;
+}
+
+/* Keep the existing spinner and loading styles */
+.spinner {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading,
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+
+/***MMMMMMMMMMMMMMM*/
+/* Styles for the search and filter section */
+.search-filter-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 20px;
+}
+
+.filters label {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+}
+
+/* Add styles for the fade-in effect */
+.table-container {
+    opacity: 0;
+    transition: opacity 0.5s ease-in-out;
+}
+
+.table-container.show {
+    opacity: 1;
+}
+
+.spinner {
+    border: 16px solid #f3f3f3;
+    border-top: 16px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.loading,
+.error {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

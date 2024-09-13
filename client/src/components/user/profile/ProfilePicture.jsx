@@ -2,9 +2,16 @@ import React from 'react';
 import LoadingSpinner from '../../global/loadingSpinner/LoadingSpinner';
 import './profile.css';
 
-const ProfilePicture = ({ picture, onError, onLoad }) => {
+const ProfilePicture = ({ picture, onError, onLoad, onChange }) => {
     return (
         <>
+            {/* <div className="profilePicture">
+                {picture ? (
+                    <img src={picture} alt="Profile" onError={onError} onLoad={onLoad} />
+                ) : (
+                    <p>No profile picture</p>
+                )} */}
+            {/* </div> */}
             {picture ? (
                 <img
                     src={picture}

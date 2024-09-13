@@ -45,6 +45,9 @@ const Login = () => {
 
       toast.success('Login successful!');
       navigate('/profile');
+      window.location.reload(); // Restart the website
+      // setTimeout(() => {
+      // }, 10);
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Login failed. Please try again.';
       toast.error(errorMessage);
@@ -57,13 +60,15 @@ const Login = () => {
       <h2>Login</h2>
       <form onSubmit={handleLogin} className="login-form">
         <input
-          type="text"
+          type="email"
           placeholder="Gmail"
+          name="gmail"
+          required
           value={gmail}
           onChange={(e) => setGmail(e.target.value)}
-          required
           className="login-input"
         />
+
         <input
           type="password"
           placeholder="Password"

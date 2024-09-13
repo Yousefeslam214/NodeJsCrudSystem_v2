@@ -8,8 +8,20 @@ import { useNavigate } from "react-router-dom";
 const apiUrl = import.meta.env.VITE_API_URL;
 
 
+function getCookie(name) {
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) {
+    return parts.pop().split(';').shift();
+  }
+  return null;
+}
+
+
+
 const EnterProducts = () => {
   // const apiUrl = "https://server-seven-khaki.vercel.app";
+  const token = getCookie('authToken'); // Assume token is stored in localStorage
 
 
   const navigate = useNavigate();
@@ -18,19 +30,22 @@ const EnterProducts = () => {
   const [productName, setProductName] = useState('');
   const [productQuantity, setProductQuantity] = useState('');
   const [productPrice, setProductPrice] = useState('');
-
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(`${apiUrl}/api/products`);
+        const response = await axios.get(`${apiUrl}/api/products`, {
+          headers: {
+            Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+          },
+          withCredentials: true,
+        });
         setUsers(response.data);
       } catch (error) {
         console.log("Error while fetching data", error);
       }
     };
     fetchData();
-  }, []);
-  // console.log(users)
+  }, [token]);
 
   const createProduct = async () => {
     try {
@@ -39,7 +54,13 @@ const EnterProducts = () => {
         quantity: productQuantity,
         price: productPrice,
       };
-      const response = await axios.post(`${apiUrl}/api/products`, productData);
+      // const response = await axios.post(`${apiUrl}/api/products`, productData);
+      const response = await axios.post(`${apiUrl}/api/products`, productData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the Authorization header
+        },
+        withCredentials: true,
+      });
       console.log(response.data.data.p)
       // setUsers((prevUsers) => [...prevUsers, response.data]);
       setUsers((prevUsers) => {
@@ -52,7 +73,8 @@ const EnterProducts = () => {
       }, 500);
     } catch (error) {
       console.log('Error creating product', error);
-      toast.error('Failed to create product', { position: 'top-right' });
+      console.log('Error creating product because you are ', error.request.statusText);
+      toast.error(`Failed to create product because you are ${error.request.statusText} please login again`, { position: 'top-right' });
     }
   };
 

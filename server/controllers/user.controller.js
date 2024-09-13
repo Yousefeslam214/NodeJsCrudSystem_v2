@@ -97,10 +97,9 @@ const getUserById = asyncWrapper(async (req, res, next) => {
 // });
 
 
-// Register a new user
 const register = asyncWrapper(async (req, res, next) => {
   const { userName, gmail, password, age, role } = req.body;
-
+  console.log("yousef")
   // Check if the user already exists
   const existingUser = await User.findOne({ gmail });
   if (existingUser) {
@@ -121,23 +120,27 @@ const register = asyncWrapper(async (req, res, next) => {
   });
 
   // Generate JWT token
-  const id = newUser._id
-  const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
-  newUser.token = token;
+  // const id = newUser._id
+  // newUser.token = token;
   try {
     // Attempt to upload the picture if provided
     if (req.file) {
       newUser.picture = await uploadFile(req.file, `folder/${Date.now()}_${req.file.originalname}`);
     }
-
+    console.log(newUser)
     // Save the new user to the database
+    const token = await generateJWT({ gmail: newUser.gmail, id: newUser._id, role: newUser.role });
+    newUser.token = token;
     await newUser.save();
-
+    console.log(newUser)
     // Respond with success status and the new user data
     res.status(201).json({
       status: hST.SUCCESS,
       data: {
-        user: newUser, token: token, id: id
+        user: newUser
+        // ,
+        //  token: newUser.token,
+        // id: newUser._id
       },
     });
   } catch (error) {
@@ -157,29 +160,70 @@ const register = asyncWrapper(async (req, res, next) => {
 });
 
 
-
-
-
-
-
-// Update a user
 const updateUser = asyncWrapper(async (req, res, next) => {
   const { id } = req.params;
-  const { password, gmail, ...updateData } = req.body;
+  const { password, gmail, ...updateData } = req.body; // Extract form data fields
+  // Check if the user exists
+  const user = await User.findById(id);
+  await user.save();
 
-  if (password) {
-    updateData.password = await bcrypt.hash(password, 10);
-  }
-
-  const user = await User.findByIdAndUpdate(id, updateData, { new: true });
   if (!user) {
     return next(AppError.create('User not found', 404, hST.FAIL));
   }
-  res.status(200).json({
-    status: hST.SUCCESS,
-    data: { user }
-  });
+
+  // Hash the password if it's provided
+  if (password) {
+    updateData.password = await bcrypt.hash(password, 1);
+  }
+
+  try {
+    // Handle picture upload if a file is provided
+    if (req.file) {
+      updateData.picture = await uploadFile(req.file, `folder/${Date.now()}_${req.file.originalname}`);
+    }
+
+    // Update the user
+    const updatedUser = await User.findByIdAndUpdate(id, updateData, { new: true });
+
+    res.status(200).json({
+      status: hST.SUCCESS,
+      data: { user: updatedUser },
+    });
+  } catch (error) {
+    return res.status(500).json({
+      status: hST.ERROR,
+      data: {
+        message: 'User update failed, and the picture could not be uploaded.',
+        error: error.message,
+      },
+    });
+  }
 });
+
+
+
+
+
+
+// // Update a user
+// const updateUser = asyncWrapper(async (req, res, next) => {
+//   const { id } = req.params;
+//   const { password, gmail, ...updateData } = req.body;
+
+//   if (password) {
+//     updateData.password = await bcrypt.hash(password, 10);
+//   }
+
+//   const user = await User.findByIdAndUpdate(id, updateData, { new: true });
+//   console.log(user)
+//   if (!user) {
+//     return next(AppError.create('User not found', 404, hST.FAIL));
+//   }
+//   res.status(200).json({
+//     status: hST.SUCCESS,
+//     data: { user }
+//   });
+// });
 
 // Delete a user
 const deleteUser = asyncWrapper(async (req, res, next) => {
