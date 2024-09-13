@@ -40,13 +40,13 @@ URL=your_mongodb_connection_string</code></pre>
 <ol>
 <li>Start the backend server:
 <pre><code>cd server
-npm start</code></pre>
+npm i && npm run dev</code></pre>
 </li>
 <li>Start the frontend development server:
 <pre><code>cd ../client
-npm run dev</code></pre>
+npm i && npm run dev</code></pre>
 </li>
-<li>Open your browser and navigate to <code>http://localhost:3000</code>.</li>
+<li>Open your browser and navigate to <code>http://localhost:5002</code>.</li>
 </ol>
 <h2 id="project-structure">Project Structure</h2>
 <pre><code>my-fullstack-project/
