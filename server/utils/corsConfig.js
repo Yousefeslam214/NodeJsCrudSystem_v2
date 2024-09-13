@@ -4,7 +4,8 @@ const cors = require('cors');
 // Add your allowed origins here
 const allowedOrigins = [
     'http://localhost:5173', // Your local React app's URL
-    'https://warehouse-management-system-01.netlify.app' // Your deployed React app URL
+    'https://warehouse-management-system-01.netlify.app', // Your deployed React app URL
+    'https://warehouse-management-system-02.netlify.app' // Your deployed React app URL
 ];
 
 const corsOptions = {
